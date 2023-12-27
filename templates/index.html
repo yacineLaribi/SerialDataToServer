@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        color: white;
+        background-color: black;
+        min-height: 100vh;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+</style>
+<body>
+    <h1>Arduino Live Data</h1>
+    <div id="serial-data">{{ arduino_data }}</div>
+</body>
+<script>
+    const socket = new WebSocket('ws://' + window.location.host + '/ws/updates/');
+
+    socket.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const serialDataElement = document.getElementById('serial-data');
+        serialDataElement.innerText = data.arduino_data;
+    };
+</script>
+</html>
